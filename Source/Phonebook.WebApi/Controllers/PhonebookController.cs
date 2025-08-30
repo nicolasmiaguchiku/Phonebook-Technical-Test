@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Phonebook.Application.Commands;
 using Phonebook.Application.Queries.GetAllContacts;
+using Phonebook.Application.Queries.GetContactById;
 using Phonebook.Domain.Entities;
 using Phonebook.Shared.Results;
 
@@ -40,6 +41,38 @@ namespace Phonebook.WebApi.Controllers
             var result = await _mediator.Send(new GetAllContactsQuery());
             return Ok(result);
         }
+
+
+        [HttpGet("GetContactById/{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            var result = await _mediator.Send(new GetContactByIdQuery(id));
+
+            if (!result.IsSuccess)
+                return NotFound(result);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("DeleteContactById/{id}")]
+        public async Task<IActionResult> DeleContactById(string id)
+        {
+            var result = await _mediator.Send(new DeleteContactCommand(id));
+            return Ok(result);
+        }
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateContact(string id, [FromBody] UpdadeContactCommand command)
+        //{
+        //    if (id != command.Id)
+        //        return BadRequest("O Id da URL deve ser igual ao Id do corpo da requisição.");
+
+        //    var result = await _mediator.Send(command);
+        //    if (!result.IsSuccess) return BadRequest(result.Message);
+
+        //    return Ok(result.Data);
+
+        //}
 
     }
 }
