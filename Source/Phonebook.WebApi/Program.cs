@@ -1,6 +1,7 @@
-using Phonebook.Application.Handlers;
+using Phonebook.Application.Extensions;
 using Phonebook.Domain.Interfaces;
 using Phonebook.Infrastructure.Extensions;
+
 using Phonebook.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,10 +15,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDataMongo(builder.Configuration);
 
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(CreateContactHandler).Assembly);
-});
+builder.Services.AddApplicationServices();
+
+builder.Services.AddValidator();
+
 
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
