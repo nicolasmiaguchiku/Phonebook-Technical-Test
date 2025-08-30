@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using Phonebook.Domain.Entities;
+using Phonebook.Infrastructure.Persistence;
 
 namespace Phonebook.Infrastructure.Data
 {

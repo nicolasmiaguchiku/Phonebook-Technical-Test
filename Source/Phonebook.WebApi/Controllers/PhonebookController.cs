@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using Phonebook.Shared.Results;
 using Phonebook.Domain.Entities;
-using Phonebook.Infrastructure.Data;
+using Phonebook.Application.Commands;
+
 
 namespace Phonebook.WebApi.Controllers
 {
@@ -8,11 +11,11 @@ namespace Phonebook.WebApi.Controllers
     [Route("api/[controller]")]
     public class PhonebookController : ControllerBase
     {
-        private readonly IMongoDbContext _context;
+        private readonly IMediator _mediator;
 
-        public PhonebookController(IMongoDbContext context)
+        public PhonebookController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         [HttpGet("Teste")]
@@ -21,22 +24,12 @@ namespace Phonebook.WebApi.Controllers
             return Ok("Deu certo");
         }
 
-
-        [HttpPost("insert-test")]
-        public async Task<IActionResult> InsertTest()
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateContactCommand command)
         {
-            var contato = new Contact
-            {
-                Name = "João Silva",
-                Phone = "11999999999",
-                Email = "joao@email.com",
-                DateOfBirth = DateTime.Now,
-                Addresses = new List<string> { "Rua A, 123", "Rua B, 456" }
-            };
+            ResultData<Contact> result = await _mediator.Send(command);
 
-            await _context.Contacts.InsertOneAsync(contato);
-
-            return Ok("Contato inserido com sucesso!");
+            return Ok(result);
         }
 
     }
