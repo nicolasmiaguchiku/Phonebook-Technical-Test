@@ -7,17 +7,24 @@
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public DateTime? DateOfBirth { get; set; }
-        public IEnumerable<string> Addresses { get; set; } = new List<string>();
+
+        private List<string> _addresses = new();
+
+        public IEnumerable<string> Addresses => _addresses;
 
         public Contact() { }
 
-        public Contact(string name, string phone, string email, DateTime? dateOfBirth, IEnumerable<string> addresses)
+        public Contact(string name, string phone, string email, DateTime? dateOfBirth)
         {
             Name = name;
             Phone = phone;
             Email = email;
             DateOfBirth = dateOfBirth;
-            Addresses = addresses;
+        }
+
+        public void AddAddresses(IEnumerable<string> addresses)
+        {
+            _addresses.AddRange(addresses);
         }
     }
 }

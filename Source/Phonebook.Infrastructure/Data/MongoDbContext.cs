@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using Phonebook.Domain.Entities;
 using Phonebook.Infrastructure.Persistence;
 
 namespace Phonebook.Infrastructure.Data
@@ -14,7 +13,7 @@ namespace Phonebook.Infrastructure.Data
         {
           _database = database;
         }
-        public IMongoCollection<Contact> Contacts => _database.GetCollection<Contact>("Contacts");
+        public IMongoCollection<ContactEntity> Contacts => _database.GetCollection<ContactEntity>("Contacts");
 
         public async Task<bool> PingAsync()
         {

@@ -12,17 +12,24 @@ namespace Phonebook.Infrastructure.Mappers
             Phone = contact.Phone,
             Email = contact.Email,
             DateOfBirth = contact.DateOfBirth,
-            Addresses = contact.Addresses
+            Addresses = contact.Addresses.ToList()
         };
 
-        public static Contact ToDomain(ContactEntity entity) => new Contact
+        public static Contact ToDomain(ContactEntity entity)
         {
-            Id = entity.Id,
-            Name = entity.Name,
-            Phone = entity.Phone,
-            Email = entity.Email,
-            DateOfBirth = entity.DateOfBirth,
-            Addresses = entity.Addresses
-        };
+            var contact = new Contact
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Phone = entity.Phone,
+                Email = entity.Email,
+                DateOfBirth = entity.DateOfBirth
+            };
+
+            if (entity.Addresses != null)
+                contact.AddAddresses(entity.Addresses);
+
+            return contact;
+        }
     }
 }

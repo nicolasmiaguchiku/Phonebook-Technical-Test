@@ -8,7 +8,7 @@ namespace Phonebook.Infrastructure.Extensions
 {
     public static class MongoDbExtentions
     {
-        public static IServiceCollection AddDataMongo(this IServiceCollection services, IConfiguration configuration)
+        public static void AddDataMongo(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
 
@@ -21,8 +21,6 @@ namespace Phonebook.Infrastructure.Extensions
             });
 
             services.AddSingleton<IMongoDbContext, MongoDbContext>();
-
-            return services;
         }
     }
 }

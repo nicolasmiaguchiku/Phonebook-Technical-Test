@@ -22,6 +22,6 @@ namespace Phonebook.Infrastructure.Persistence
         public DateTime? DateOfBirth { get; set; }
 
         [BsonElement("Addresses")]
-        public IEnumerable<string> Addresses { get; set; } = new List<string>();
+        public IEnumerable<string>? Addresses { get; set; }
     }
 }

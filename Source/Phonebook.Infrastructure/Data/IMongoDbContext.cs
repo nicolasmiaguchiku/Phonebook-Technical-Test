@@ -1,11 +1,11 @@
 ﻿using MongoDB.Driver;
-using Phonebook.Domain.Entities;
+using Phonebook.Infrastructure.Persistence;
 
 namespace Phonebook.Infrastructure.Data
 {
     public interface IMongoDbContext
     {
-        IMongoCollection<Contact> Contacts { get; }
+        IMongoCollection<ContactEntity> Contacts { get; }
 
         Task<bool> PingAsync();
     }
