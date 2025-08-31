@@ -31,12 +31,13 @@ O projeto segue uma organização em camadas inspirada na **Clean Architecture**
 
 #### 1. Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/phonebook-api.git
-cd phonebook-api
+https://github.com/nicolasmiaguchiku/Phonebook-Technical-Test.git
+cd source
 ```
 #### 2. Configure o banco no appsettings.json 
 
 Edite o arquivo Phonebook.WebApi/appsettings.json e ajuste a conexão do MongoDB:
+##### Exemplo:
 ```bash
 "MongoDbSettings": {
   "ConnectionString": "mongodb://localhost:27017",
