@@ -6,8 +6,6 @@ using Phonebook.Infrastructure.Data;
 using Phonebook.Infrastructure.Mappers;
 using Phonebook.Infrastructure.Persistence;
 using Phonebook.Shared.Results;
-using System.Runtime.InteropServices;
-
 
 namespace Phonebook.Infrastructure.Repositories
 {
@@ -32,12 +30,19 @@ namespace Phonebook.Infrastructure.Repositories
             return ResultData<Contact>.Success(contactDomain, "Contato criado com sucesso!");
         }
 
-        public async Task<IEnumerable<Contact>> GetAllContactsAsync()
+        public async Task<ResultData<IEnumerable<Contact>>> GetAllContactsAsync()
         {
             var listContact = await _collection.FindAsync(FilterDefinition<ContactEntity>.Empty);
             var contactsEntity = await listContact.ToListAsync();
 
-            return contactsEntity.Select(ContactMapper.ToDomain);
+            if (contactsEntity == null || !contactsEntity.Any())
+            {
+                return ResultData<IEnumerable<Contact>>.Failure("Nenhum contato encontrado.");
+            }
+
+            var contacts = contactsEntity.Select(ContactMapper.ToDomain);
+
+            return ResultData<IEnumerable<Contact>>.Success(contacts, "Contatos encontrados com sucesso.");
         }
 
         public async Task<ResultData<Contact>> GetContactByIdAsync(string id)
@@ -81,10 +86,26 @@ namespace Phonebook.Infrastructure.Repositories
 
         }
 
-        //public async Task<ResultData<Contact>> UpdadeContactAsync(string id, Contact contact, string? novoEndereco = null)
-        //{
-          
-        //}
+        public async Task<ResultData<Contact>> UpdadeContactAsync(Contact contact)
+        {
+
+            if (contact == null)
+                return ResultData<Contact>.Failure("Contact is null");
+
+            var entity = ContactMapper.ToEntity(contact);
+
+            var filter = Builders<ContactEntity>.Filter.Eq(c => c.Id, contact.Id);
+
+
+            var result = await _collection.ReplaceOneAsync(filter, entity);
+
+            if (result.MatchedCount == 0)
+                return ResultData<Contact>.Failure("Contact not found");
+
+            var updatedContact = ContactMapper.ToDomain(entity);
+
+            return ResultData<Contact>.Success(updatedContact, "Contact updated successfully");
+        }
     }
 }
 

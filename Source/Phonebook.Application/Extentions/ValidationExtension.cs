@@ -18,6 +18,8 @@ namespace Phonebook.Application.Extensions
 
             services.AddScoped<IValidator<CreateContactCommand>,CreateContactValidation>();
 
+            services.AddScoped<IValidator<UpdateContactCommand>, UpdateContactCommandValidator>();
+
         }
     }
 }

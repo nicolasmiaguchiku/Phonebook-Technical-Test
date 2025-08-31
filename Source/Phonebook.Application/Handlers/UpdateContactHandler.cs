@@ -1,38 +1,37 @@
-﻿//using MediatR;
-//using Phonebook.Application.Commands;
-//using Phonebook.Domain.Entities;
-//using Phonebook.Domain.Interfaces;
-//using Phonebook.Shared.Results;
+﻿using MediatR;
+using Phonebook.Domain.Entities;
+using Phonebook.Domain.Interfaces;
+using Phonebook.Shared.Results;
+using Phonebook.Application.Commands;
 
-//public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand, ResultData<Contact>>
-//{
-//    private readonly IContactRepository _repository;
+public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand, ResultData<Contact>>
+{
+    private readonly IContactRepository _repository;
+ 
 
-//    public UpdateContactCommandHandler(IContactRepository repository)
-//    {
-//        _repository = repository;
-//    }
+    public UpdateContactCommandHandler(IContactRepository repository)
+    {
+        _repository = repository;
+    }
 
-//    public async Task<ResultData<Contact>> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
-//    {
-//        var contact = await _repository.GetContactByIdAsync(request.Id);
-//        if (contact == null)
-//            return ResultData<Contact>.Failure("Contato não encontrado.");
+    public async Task<ResultData<Contact>> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
+    {
+        var resultGet = await _repository.GetContactByIdAsync(request.Id);
+        if (!resultGet.IsSuccess || resultGet.Data == null)
+            return ResultData<Contact>.Failure("Contato não encontrado");
 
-//        if (!string.IsNullOrWhiteSpace(request.newName))
-//            contact.Name = request.newName;
-//        if (!string.IsNullOrWhiteSpace(request.newPhone))
-//            contact.Phone = request.newPhone;
-//        if (!string.IsNullOrWhiteSpace(request.newEmail))
-//            contact.Email = request.newEmail;
+        var contact = resultGet.Data;
 
-//        contact.DateOfBirth = request.DateOfBirth;
+        contact.Name = request.Name;
+        contact.Phone = request.Phone;
+        contact.Email = request.Email;
+        contact.DateOfBirth = request.DateOfBirth;
 
-//        if (!string.IsNullOrWhiteSpace(request.newAddresse))
-//            contact.AddAddress(request.newAddresse);
+        if (request.Addresses != null && request.Addresses.Any())
+        {
+            contact.AddAddresses(request.Addresses);
+        }
 
-//        await _repository.UpdadeContactAsync(contact);
-
-//        return ResultData<Contact>.Success(contact, "Contato atualizado com sucesso.");
-//    }
-//}
+        return await _repository.UpdadeContactAsync(contact);
+    }
+}
