@@ -47,7 +47,7 @@ Edite o arquivo Phonebook.WebApi/appsettings.json e ajuste a conexão do MongoDB
 
 #### 3. Restaure as dependências
 ```bash
-dotnet restore
+dotnet restore Phonebook.sln
 ```
 #### 4. Rode a aplicação
 ```bash
