@@ -62,7 +62,7 @@ namespace Phonebook.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("UpdateContactbyId{id}")]
         public async Task<IActionResult> UpdateContact(string id, [FromBody] UpdateContactDto dto)
         {
             var command = new UpdateContactCommand(id, dto.Name, dto.Phone, dto.Email, dto.DateOfBirth, dto.Addresses);
