@@ -5,6 +5,7 @@ using Phonebook.Application.Queries.GetAllContacts;
 using Phonebook.Application.Queries.GetContactById;
 using Phonebook.Domain.Entities;
 using Phonebook.Shared.Results;
+using Phonebook.WebApi.Dtos;
 
 
 namespace Phonebook.WebApi.Controllers
@@ -61,18 +62,17 @@ namespace Phonebook.WebApi.Controllers
             return Ok(result);
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateContact(string id, [FromBody] UpdadeContactCommand command)
-        //{
-        //    if (id != command.Id)
-        //        return BadRequest("O Id da URL deve ser igual ao Id do corpo da requisição.");
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateContact(string id, [FromBody] UpdateContactDto dto)
+        {
+            var command = new UpdateContactCommand(id, dto.Name, dto.Phone, dto.Email, dto.DateOfBirth, dto.Addresses);
 
-        //    var result = await _mediator.Send(command);
-        //    if (!result.IsSuccess) return BadRequest(result.Message);
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+                return BadRequest(result.Message);
 
-        //    return Ok(result.Data);
-
-        //}
+            return Ok(result.Data);
+        }
 
     }
 }
