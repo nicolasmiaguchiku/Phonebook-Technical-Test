@@ -78,7 +78,7 @@ Exemplo: "+55 11 91234-5678"
 - Email (string, obrigatório) → Endereço de e-mail válido.
 Exemplo: "joao.silva@example.com"
 
-- DateOfBirth (DataTime no formato yyyy-MM-dd, opcional) → Data de nascimento no padrão ISO (ano-mês-dia).
+- DateOfBirth (DataTime no formato yyyy-MM-dd, opcional) → Data de nascimento no padrão (ano-mês-dia).
 Exemplo: "1998-04-24"
 
 - Addresses (IEnumerable de strings, obrigatório) → Lista de endereços do contato. Deve conter pelo menos um endereço.
