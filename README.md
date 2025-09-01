@@ -54,4 +54,31 @@ dotnet restore Phonebook.sln
 dotnet run --project Phonebook.WebApi
 ```
 
+###📌 Exemplo de JSON de entrada – Rota POST /AddContacts-phonebook
+Para criar um novo contato, envie um JSON no corpo da requisição seguindo o formato abaixo:
+```bash
+{
+  "name": "João da Silva",
+  "phone": "+55 11 91234-5678",
+  "email": "joao.silva@example.com",
+  "dateOfBirth": "1998-04-24",
+  "addresses": [
+    "string"
+  ]
+}
+```
+##🔎 Detalhes dos campos
 
+- Name (string, obrigatório) → Nome do contato.
+Exemplo: "João da Silva"
+
+- Phone (string, obrigatório) → Telefone de contato.
+Exemplo: "+55 11 91234-5678"
+
+- Email (string, obrigatório) → Endereço de e-mail válido.
+Exemplo: "joao.silva@example.com"
+
+- DateOfBirth (string no formato yyyy-MM-dd opcional) → Data de nascimento no padrão ISO (ano-mês-dia).
+Exemplo: "1998-04-24"
+
+- Addresses (IEnumerable de strings, obrigatório) → Lista de endereços do contato. Deve conter pelo menos um endereço.
