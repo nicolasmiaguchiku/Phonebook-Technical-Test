@@ -72,14 +72,20 @@ namespace Phonebook.Infrastructure.Repositories
 
         public async Task<ResultData<bool>> DeleteContactAsync(string id)
         {
-            var contactDedelete = await _collection.DeleteOneAsync(c => c.Id == id);
+            if (!ObjectId.TryParse(id, out var contactId))
+            {
+                return ResultData<bool>.Failure("Id inválido.");
+            }
+            var contact = await _collection.Find(c => c.Id == id).FirstOrDefaultAsync();
+           
 
-            if (contactDedelete == null)
+            if (contact == null)
             {
                 return ResultData<bool>.Failure("Contato não encontrado");
             }
             else
             {
+                await _collection.DeleteOneAsync(c => c.Id == id);
                 return ResultData<bool>.Success(true, "Contato Deletado");
             }
 

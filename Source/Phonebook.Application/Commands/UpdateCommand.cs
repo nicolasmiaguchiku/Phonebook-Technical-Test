@@ -10,6 +10,6 @@ namespace Phonebook.Application.Commands
      string Phone,
      string Email,
      DateTime? DateOfBirth,
-     IEnumerable<string>? Addresses) : IRequest<ResultData<Contact>>;
+     IEnumerable<string> Addresses) : IRequest<ResultData<Contact>>;
 
 }
