@@ -39,35 +39,34 @@ namespace Phonebook.Infrastructure.Repositories
             {
                 return ResultData<IEnumerable<Contact>>.Failure("Nenhum contato encontrado.");
             }
+            else
+            {
+                var contacts = contactsEntity.Select(ContactMapper.ToDomain);
 
-            var contacts = contactsEntity.Select(ContactMapper.ToDomain);
-
-            return ResultData<IEnumerable<Contact>>.Success(contacts, "Contatos encontrados com sucesso.");
+                return ResultData<IEnumerable<Contact>>.Success(contacts, "Contatos encontrados com sucesso.");
+            }
+           
         }
 
         public async Task<ResultData<Contact>> GetContactByIdAsync(string id)
         {
-            try
+
+            if (!ObjectId.TryParse(id, out var contactId))
             {
-                if (!ObjectId.TryParse(id, out _))
-                {
-                    return ResultData<Contact>.Failure("Id inválido.");
-                }
+                return ResultData<Contact>.Failure("Id inválido.");
+            }
 
-                var contact = await _collection.Find(c => c.Id == id).FirstOrDefaultAsync();
+            var contact = await _collection.Find(c => c.Id == id).FirstOrDefaultAsync();
 
-                if (contact == null)
-                {
-                    return ResultData<Contact>.Failure("Contato não encontrado.");
-                }
-
+            if (contact == null)
+            {
+                return ResultData<Contact>.Failure("Contato não encontrado.");
+            }
+            else
+            {
                 var contactDomain = ContactMapper.ToDomain(contact);
 
                 return ResultData<Contact>.Success(contactDomain, "Contato encontrado com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                return ResultData<Contact>.Failure($"Erro ao buscar contato: {ex.Message}");
             }
         }
 
@@ -88,25 +87,16 @@ namespace Phonebook.Infrastructure.Repositories
 
         public async Task<ResultData<Contact>> UpdadeContactAsync(Contact contact)
         {
-
-            if (contact == null)
-                return ResultData<Contact>.Failure("Contact is null");
-
-            var entity = ContactMapper.ToEntity(contact);
+            var contactentity = ContactMapper.ToEntity(contact);
 
             var filter = Builders<ContactEntity>.Filter.Eq(c => c.Id, contact.Id);
 
+            var result = await _collection.ReplaceOneAsync(filter, contactentity);
 
-            var result = await _collection.ReplaceOneAsync(filter, entity);
+            var updatedContact = ContactMapper.ToDomain(contactentity);
 
-            if (result.MatchedCount == 0)
-                return ResultData<Contact>.Failure("Contact not found");
-
-            var updatedContact = ContactMapper.ToDomain(entity);
-
-            return ResultData<Contact>.Success(updatedContact, "Contact updated successfully");
+            return ResultData<Contact>.Success(updatedContact, "Contato atualizado com sucesso");
         }
     }
 }
 
- 

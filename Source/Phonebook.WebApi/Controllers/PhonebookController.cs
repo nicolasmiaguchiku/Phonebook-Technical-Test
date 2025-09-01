@@ -32,7 +32,16 @@ namespace Phonebook.WebApi.Controllers
         {
             ResultData<Contact> result = await _mediator.Send(command);
 
-            return Ok(result);
+            if(result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+
+            
         }
 
 
@@ -68,11 +77,15 @@ namespace Phonebook.WebApi.Controllers
             var command = new UpdateContactCommand(id, dto.Name, dto.Phone, dto.Email, dto.DateOfBirth, dto.Addresses);
 
             var result = await _mediator.Send(command);
-            if (!result.IsSuccess)
-                return BadRequest(result.Message);
 
-            return Ok(result.Data);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
-
     }
 }
