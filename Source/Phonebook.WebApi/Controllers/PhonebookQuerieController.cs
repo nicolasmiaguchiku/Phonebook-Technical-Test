@@ -1,8 +1,6 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
-using Phonebook.Application.Handlers.Commands;
-using Phonebook.Application.Handlers.Queries;
+using Phonebook.Application.Input.Handlers.Queries;
 
 namespace Phonebook.WebApi.Controllers
 {

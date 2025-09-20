@@ -2,7 +2,7 @@
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Phonebook.Application.Validators;
-using Phonebook.Application.Handlers.Commands;
+using Phonebook.Application.Input.Handlers.Commands;
 
 
 namespace Phonebook.CrossCutting.Extentions

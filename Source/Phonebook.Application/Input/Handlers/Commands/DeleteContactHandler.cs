@@ -2,7 +2,7 @@
 using Phonebook.Domain.Interfaces;
 using Phonebook.Domain.Results;
 
-namespace Phonebook.Application.Handlers.Commands
+namespace Phonebook.Application.Input.Handlers.Commands
 {
     public class DeleteContactHandler(IContactRepository Repository) : IRequestHandler<DeleteContactCommand, ResultData<bool>>
     {

@@ -1,15 +1,17 @@
 ﻿using MediatR;
-using Phonebook.Application.Handlers.Queries;
 using Phonebook.Domain.Entities;
 using Phonebook.Domain.Interfaces;
 using Phonebook.Domain.Results;
 
 
-public class GetAllContactsHandler(IContactRepository Repository): IRequestHandler<GetAllContactsQuery, ResultData<IEnumerable<Contact>>>
+namespace Phonebook.Application.Input.Handlers.Queries
 {
-    public async Task<ResultData<IEnumerable<Contact>>> Handle(GetAllContactsQuery request, CancellationToken cancellationToken)
+    internal class GetAllContactHandler(IContactRepository Repository) : IRequestHandler<GetAllContactsQuery, ResultData<IEnumerable<Contact>>>
     {
-        var result = await Repository.GetAllContactsAsync();
-        return result;
+        public async Task<ResultData<IEnumerable<Contact>>> Handle(GetAllContactsQuery request, CancellationToken cancellationToken)
+        {
+            var result = await Repository.GetAllContactsAsync();
+            return result;
+        }
     }
 }

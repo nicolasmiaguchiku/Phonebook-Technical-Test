@@ -2,7 +2,7 @@
 using Phonebook.Domain.Entities;
 using Phonebook.Domain.Results;
 
-namespace Phonebook.Application.Handlers.Commands
+namespace Phonebook.Application.Input.Handlers.Commands
 {
     public record UpdateContactCommand(
      string Id,

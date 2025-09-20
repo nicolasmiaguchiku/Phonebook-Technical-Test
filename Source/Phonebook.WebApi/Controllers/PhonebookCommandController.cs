@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Phonebook.Application.Handlers.Commands;
+using Phonebook.Application.Input.Handlers.Commands;
 using Phonebook.Domain.Entities;
 using Phonebook.Domain.Results;
-using Phonebook.WebApi.Dtos;
+using Phonebook.Application.Dtos;
 
 
 namespace Phonebook.WebApi.Controllers

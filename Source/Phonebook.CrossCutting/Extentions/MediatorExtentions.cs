@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Phonebook.Application.Handlers.Commands;
-using Phonebook.Application.Handlers.Queries;
+using Phonebook.Application.Input.Handlers.Commands;
+using Phonebook.Application.Input.Handlers.Queries;
 
 namespace Phonebook.CrossCutting.Extentions
 {

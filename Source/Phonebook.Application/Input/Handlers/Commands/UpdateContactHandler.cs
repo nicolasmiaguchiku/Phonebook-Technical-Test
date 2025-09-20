@@ -3,7 +3,7 @@ using Phonebook.Domain.Entities;
 using Phonebook.Domain.Interfaces;
 using Phonebook.Domain.Results;
 using FluentValidation;
-using Phonebook.Application.Handlers.Commands;
+using Phonebook.Application.Input.Handlers.Commands;
 
 public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand, ResultData<Contact>>
 {

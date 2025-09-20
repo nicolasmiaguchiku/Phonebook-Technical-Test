@@ -4,7 +4,7 @@ using Phonebook.Domain.Interfaces;
 using Phonebook.Domain.Results;
 
 
-namespace Phonebook.Application.Handlers.Queries
+namespace Phonebook.Application.Input.Handlers.Queries
 {
     internal class GetContactByIdHandler(IContactRepository Repository) : IRequestHandler<GetContactByIdQuery, ResultData<Contact>>
     {
