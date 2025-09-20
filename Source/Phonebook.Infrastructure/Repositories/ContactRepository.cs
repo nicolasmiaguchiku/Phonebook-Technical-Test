@@ -2,10 +2,10 @@
 using MongoDB.Driver;
 using Phonebook.Domain.Entities;
 using Phonebook.Domain.Interfaces;
+using Phonebook.Domain.Results;
 using Phonebook.Infrastructure.Data;
 using Phonebook.Infrastructure.Mappers;
 using Phonebook.Infrastructure.Persistence;
-using Phonebook.Shared.Results;
 
 namespace Phonebook.Infrastructure.Repositories
 {
@@ -23,6 +23,7 @@ namespace Phonebook.Infrastructure.Repositories
         public async Task<ResultData<Contact>> CreateContactAsync(Contact contact)
         {
             var document = ContactMapper.ToEntity(contact);
+
             await _collection.InsertOneAsync(document);
 
             var contactDomain = ContactMapper.ToDomain(document);
@@ -33,6 +34,7 @@ namespace Phonebook.Infrastructure.Repositories
         public async Task<ResultData<IEnumerable<Contact>>> GetAllContactsAsync()
         {
             var listContact = await _collection.FindAsync(FilterDefinition<ContactEntity>.Empty);
+
             var contactsEntity = await listContact.ToListAsync();
 
             if (contactsEntity == null || !contactsEntity.Any())
@@ -103,6 +105,7 @@ namespace Phonebook.Infrastructure.Repositories
 
             return ResultData<Contact>.Success(updatedContact, "Contato atualizado com sucesso");
         }
+
     }
 }
 

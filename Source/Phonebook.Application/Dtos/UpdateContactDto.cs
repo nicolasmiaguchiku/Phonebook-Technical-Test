@@ -4,6 +4,6 @@
     string Name,
     string Phone,
     string Email,
-    DateTime? DateOfBirth,
-    IEnumerable<string>? Addresses);
+    DateTime DateOfBirth,
+    IEnumerable<string> Addresses);
 }

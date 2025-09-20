@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Phonebook.Domain.Entities;
-using Phonebook.Shared.Results;
+using Phonebook.Domain.Results;
 
-namespace Phonebook.Application.Commands
+namespace Phonebook.Application.Handlers.Commands
 {
     public record  CreateContactCommand
         (

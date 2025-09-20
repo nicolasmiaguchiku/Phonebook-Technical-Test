@@ -1,4 +1,4 @@
-﻿namespace Phonebook.Shared.Configuration
+﻿namespace Phonebook.CrossCutting.Dtos
 {
     public class MongoDbSettings
     {

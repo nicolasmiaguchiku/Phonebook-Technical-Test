@@ -2,10 +2,10 @@
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Phonebook.Application.Validators;
-using Phonebook.Application.Commands;
+using Phonebook.Application.Handlers.Commands;
 
 
-namespace Phonebook.Application.Extensions
+namespace Phonebook.CrossCutting.Extentions
 {
     public static class ValidationExtension
     {

@@ -1,32 +1,34 @@
-﻿using Phonebook.Application.Commands;
-using MediatR;
+﻿using MediatR;
 using Phonebook.Domain.Entities;
 using Phonebook.Domain.Interfaces;
-using Phonebook.Shared.Results;
+using Phonebook.Domain.Results;
 using FluentValidation;
 
 
-namespace Phonebook.Application.Handlers
+namespace Phonebook.Application.Handlers.Commands
 {
     public class CreateContactHandler : IRequestHandler<CreateContactCommand, ResultData<Contact>>
     {
         private readonly IContactRepository _repositoryContact;
         private readonly IValidator<CreateContactCommand> _validator;
 
-        public CreateContactHandler(IContactRepository repository, IValidator<CreateContactCommand> validator)
+        public CreateContactHandler(IContactRepository Repository, IValidator<CreateContactCommand> Validator)
         {
-            _repositoryContact = repository;
-            _validator = validator;
+            _repositoryContact = Repository;
+            _validator = Validator;
         }
 
         public async Task<ResultData<Contact>> Handle(CreateContactCommand request, CancellationToken cancellationToken)
         {
+            ResultData<Contact> result;
 
-            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken)
+                ;
             if (!validationResult.IsValid)
             {
                 var errors = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
-                return ResultData<Contact>.Failure(errors);
+                result = ResultData<Contact>.Failure(errors);
+                return result;
             }
             else
             {
@@ -40,7 +42,8 @@ namespace Phonebook.Application.Handlers
 
                 contato.AddAddresses(request.Addresses);
 
-                return await _repositoryContact.CreateContactAsync(contato);
+                result = await _repositoryContact.CreateContactAsync(contato);
+                return result;
             }
 
            

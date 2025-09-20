@@ -1,4 +1,6 @@
-﻿namespace Phonebook.Shared.Results
+﻿
+
+namespace Phonebook.Domain.Results
 {
     public abstract class Result
     {

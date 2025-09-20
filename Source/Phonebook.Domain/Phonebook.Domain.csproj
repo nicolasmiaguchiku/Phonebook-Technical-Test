@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Phonebook.Shared\Phonebook.Shared.csproj" />
-	
-  </ItemGroup>
-
 </Project>

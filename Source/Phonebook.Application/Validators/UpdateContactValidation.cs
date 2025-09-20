@@ -1,6 +1,6 @@
 ﻿
 using FluentValidation;
-using Phonebook.Application.Commands;
+using Phonebook.Application.Handlers.Commands;
 
 namespace Phonebook.Application.Validators
 {

@@ -1,5 +1,5 @@
 ﻿using Phonebook.Domain.Entities;
-using Phonebook.Shared.Results;
+using Phonebook.Domain.Results;
 
 namespace Phonebook.Domain.Interfaces
 {

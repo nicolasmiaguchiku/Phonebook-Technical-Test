@@ -1,27 +1,20 @@
-using Phonebook.Application.Extensions;
-using Phonebook.Domain.Interfaces;
-using Phonebook.Infrastructure.Extensions;
+using Phonebook.CrossCutting.Extentions;
+using DotNetEnv;
 
-using Phonebook.Infrastructure.Repositories;
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
-builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer()
+                .AddSwaggerGen()
+                .AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddDataMongo(builder.Configuration);
-
-builder.Services.AddApplicationServices();
-
-builder.Services.AddValidator();
-
-
-builder.Services.AddScoped<IContactRepository, ContactRepository>();
-
+builder.Services.ConfigureMediatr()
+                .AddDataMongo(builder.Configuration)
+                .AddRepositorie()
+                .AddValidator();
 
 var app = builder.Build();
 

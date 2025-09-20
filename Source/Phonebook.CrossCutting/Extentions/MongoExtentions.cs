@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using Phonebook.CrossCutting.Dtos;
 using Phonebook.Infrastructure.Data;
-using Phonebook.Shared.Configuration;
 
-namespace Phonebook.Infrastructure.Extensions
+namespace Phonebook.CrossCutting.Extentions
 {
-    public static class MongoDbExtentions
+    public static class MongoExtentions
     {
-        public static void AddDataMongo(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDataMongo(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
 
@@ -20,7 +20,10 @@ namespace Phonebook.Infrastructure.Extensions
                 return database;
             });
 
+            
             services.AddSingleton<IMongoDbContext, MongoDbContext>();
+
+            return services;
         }
     }
 }
