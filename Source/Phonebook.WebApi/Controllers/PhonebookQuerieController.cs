@@ -5,7 +5,7 @@ using Phonebook.Application.Input.Handlers.Queries;
 namespace Phonebook.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1")]
     public class PhonebookQuerieController(IMediator mediator) : ControllerBase
     {
 

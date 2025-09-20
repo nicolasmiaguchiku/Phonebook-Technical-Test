@@ -9,7 +9,7 @@ using Phonebook.Application.Dtos;
 namespace Phonebook.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1")]
     public class PhonebookCommandController(IMediator mediator) : ControllerBase
     {
 
