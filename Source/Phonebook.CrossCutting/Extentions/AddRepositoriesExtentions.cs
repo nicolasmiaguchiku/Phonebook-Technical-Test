@@ -4,9 +4,9 @@ using Phonebook.Infrastructure.Repositories;
 
 namespace Phonebook.CrossCutting.Extentions
 {
-    public static class AddRepositorieExtentions
+    public static class AddRepositoriesExtentions
     {
-        public static IServiceCollection AddRepositorie(this IServiceCollection service)
+        public static IServiceCollection AddRepositories(this IServiceCollection service)
         {
             service.AddScoped<IContactRepository, ContactRepository>();
 

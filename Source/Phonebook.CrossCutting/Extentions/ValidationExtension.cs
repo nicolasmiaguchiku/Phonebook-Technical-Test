@@ -9,7 +9,7 @@ namespace Phonebook.CrossCutting.Extentions
 {
     public static class ValidationExtension
     {
-        public static void AddValidator(this IServiceCollection services)
+        public static void AddValidators(this IServiceCollection services)
         {
             services.AddFluentValidationAutoValidation(options =>
             {

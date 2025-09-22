@@ -8,7 +8,6 @@ namespace Phonebook.WebApi.Controllers
     [Route("api/v1")]
     public class PhonebookQuerieController(IMediator mediator) : ControllerBase
     {
-
         [HttpGet("GetAllContact-Phonebook")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {

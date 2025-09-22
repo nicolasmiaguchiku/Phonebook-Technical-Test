@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Phonebook.Application.Input.Handlers.Commands;
 using Phonebook.Domain.Entities;
 using Phonebook.Domain.Results;
-using Phonebook.Application.Dtos;
-
 
 namespace Phonebook.WebApi.Controllers
 {
@@ -28,11 +26,9 @@ namespace Phonebook.WebApi.Controllers
             }
         }
 
-        [HttpPut("UpdateContactbyId/{id}")]
-        public async Task<IActionResult> UpdateContact(string id, [FromBody] UpdateContactDto dto, CancellationToken cancellationToken)
+        [HttpPut("UpdateContactbyId")]
+        public async Task<IActionResult> UpdateContact([FromBody] UpdateContactCommand command, CancellationToken cancellationToken)
         {
-            var command = new UpdateContactCommand(id, dto.Name, dto.Phone, dto.Email, dto.DateOfBirth, dto.Addresses);
-
             var result = await mediator.Send(command, cancellationToken);
 
             if (result.IsSuccess)
@@ -45,9 +41,8 @@ namespace Phonebook.WebApi.Controllers
             }
         }
 
-
-        [HttpDelete("DeleteContactById/{id}")]
-        public async Task<IActionResult> DeleContactById(string id)
+        [HttpDelete("DeleteContactById")]
+        public async Task<IActionResult> DeleteContactById([FromQuery] string id)
         {
             var result = await mediator.Send(new DeleteContactCommand(id));
             return Ok(result);

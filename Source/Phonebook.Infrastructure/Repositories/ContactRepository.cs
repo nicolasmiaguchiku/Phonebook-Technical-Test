@@ -9,17 +9,10 @@ using Phonebook.Infrastructure.Persistence;
 
 namespace Phonebook.Infrastructure.Repositories
 {
-    public class ContactRepository : IContactRepository
+    public class ContactRepository(IMongoDbContext Context) : IContactRepository
     {
-        private readonly IMongoDbContext _context;
-        private readonly IMongoCollection<ContactEntity> _collection;
-
-        public ContactRepository(IMongoDbContext context)
-        {
-            _context = context;
-            _collection = _context.Contacts;
-        }
-
+   
+        private readonly IMongoCollection<ContactEntity> _collection = Context.Contacts;
         public async Task<ResultData<Contact>> CreateContactAsync(Contact contact)
         {
             var document = ContactMapper.ToEntity(contact);
@@ -47,7 +40,6 @@ namespace Phonebook.Infrastructure.Repositories
 
                 return ResultData<IEnumerable<Contact>>.Success(contacts, "Contatos encontrados com sucesso.");
             }
-           
         }
 
         public async Task<ResultData<Contact>> GetContactByIdAsync(string id)
@@ -79,7 +71,6 @@ namespace Phonebook.Infrastructure.Repositories
                 return ResultData<bool>.Failure("Id inválido.");
             }
             var contact = await _collection.Find(c => c.Id == id).FirstOrDefaultAsync();
-           
 
             if (contact == null)
             {
@@ -90,9 +81,7 @@ namespace Phonebook.Infrastructure.Repositories
                 await _collection.DeleteOneAsync(c => c.Id == id);
                 return ResultData<bool>.Success(true, "Contato Deletado");
             }
-
         }
-
         public async Task<ResultData<Contact>> UpdadeContactAsync(Contact contact)
         {
             var contactentity = ContactMapper.ToEntity(contact);
@@ -105,7 +94,6 @@ namespace Phonebook.Infrastructure.Repositories
 
             return ResultData<Contact>.Success(updatedContact, "Contato atualizado com sucesso");
         }
-
     }
 }
 

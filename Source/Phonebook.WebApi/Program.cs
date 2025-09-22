@@ -1,33 +1,25 @@
 using Phonebook.CrossCutting.Extentions;
-using DotNetEnv;
-
-Env.Load();
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
-
-builder.Services.AddEndpointsApiExplorer()
-                .AddSwaggerGen()
-                .AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.ConfigureMediatr()
                 .AddDataMongo(builder.Configuration)
-                .AddRepositorie()
-                .AddValidator();
+                .AddRepositories()
+                .AddValidators();
+                
+builder.Services.AddOpenApi("v1");
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
-}
+app.MapOpenApi();
+app.MapScalarApiReference(options => options.Servers = []);
 
 app.UseHttpsRedirection();
-
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

@@ -6,7 +6,6 @@ using Phonebook.Domain.Results;
 namespace Phonebook.Application.Input.Handlers.Commands
 {
     public record CreateContactCommand(
-    string Id,
     string Name,
     string Phone,
     string Email,
