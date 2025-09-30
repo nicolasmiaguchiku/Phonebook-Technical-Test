@@ -1,17 +1,20 @@
-﻿using MongoDB.Bson;
+﻿using Mattioli.Configurations.Stages;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Phonebook.Domain.Entities;
+using Phonebook.Domain.Filters;
 using Phonebook.Domain.Interfaces;
 using Phonebook.Domain.Results;
 using Phonebook.Infrastructure.Data;
 using Phonebook.Infrastructure.Mappers;
 using Phonebook.Infrastructure.Persistence;
+using Phonebook.Infrastructure.Queries.Stages;
 
 namespace Phonebook.Infrastructure.Repositories
 {
     public class ContactRepository(IMongoDbContext Context) : IContactRepository
     {
-   
+
         private readonly IMongoCollection<ContactEntity> _collection = Context.Contacts;
         public async Task<ResultData<Contact>> CreateContactAsync(Contact contact)
         {
@@ -24,13 +27,27 @@ namespace Phonebook.Infrastructure.Repositories
             return ResultData<Contact>.Success(contactDomain, "Contato criado com sucesso!");
         }
 
-        public async Task<ResultData<IEnumerable<Contact>>> GetAllContactsAsync()
+        public async Task<ResultData<IEnumerable<Contact>>> GetAllContactsAsync(ContactFiltersBuilder queryFilter, CancellationToken cancellationToken)
         {
-            var listContact = await _collection.FindAsync(FilterDefinition<ContactEntity>.Empty);
+            var pipelineDefinition = PipelineDefinitionBuilder
+                               .For<ContactEntity>()
+                               .As<ContactEntity, ContactEntity, BsonDocument>()
+                               .FilterContacts(queryFilter);
 
-            var contactsEntity = await listContact.ToListAsync();
+            if (queryFilter.WithPagination)
+            {
+                pipelineDefinition = pipelineDefinition.Paginate(queryFilter.PageNumber, queryFilter.PageSize);
+            }
 
-            if (contactsEntity == null || !contactsEntity.Any())
+            var resultsPipeline = pipelineDefinition.As<ContactEntity, BsonDocument, ContactEntity>();
+
+            var aggregation = await _collection.AggregateAsync(
+                   resultsPipeline,
+                   new AggregateOptions { AllowDiskUse = true, MaxTime = Timeout.InfiniteTimeSpan, }, cancellationToken);
+
+            var contactsEntity = await aggregation.ToListAsync(cancellationToken);
+
+            if (contactsEntity == null || contactsEntity.Count == 0)
             {
                 return ResultData<IEnumerable<Contact>>.Failure("Nenhum contato encontrado.");
             }
@@ -42,15 +59,15 @@ namespace Phonebook.Infrastructure.Repositories
             }
         }
 
-        public async Task<ResultData<Contact>> GetContactByIdAsync(string id)
+        public async Task<ResultData<Contact>> GetContactByIdAsync(ContactFiltersBuilder queryFilters, CancellationToken cancellationToken)
         {
 
-            if (!ObjectId.TryParse(id, out var contactId))
+            if (!ObjectId.TryParse(queryFilters.ContactsId, out var contactId))
             {
                 return ResultData<Contact>.Failure("Id inválido.");
             }
 
-            var contact = await _collection.Find(c => c.Id == id).FirstOrDefaultAsync();
+            var contact = await _collection.Find(c => c.Id == queryFilters.ContactsId).FirstOrDefaultAsync();
 
             if (contact == null)
             {
@@ -82,6 +99,7 @@ namespace Phonebook.Infrastructure.Repositories
                 return ResultData<bool>.Success(true, "Contato Deletado");
             }
         }
+
         public async Task<ResultData<Contact>> UpdadeContactAsync(Contact contact)
         {
             var contactentity = ContactMapper.ToEntity(contact);

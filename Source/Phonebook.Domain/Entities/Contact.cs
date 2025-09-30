@@ -1,4 +1,7 @@
-﻿namespace Phonebook.Domain.Entities
+﻿using Mattioli.Configurations.Http;
+using Phonebook.Domain.Filters;
+
+namespace Phonebook.Domain.Entities
 {
     public class Contact
     {

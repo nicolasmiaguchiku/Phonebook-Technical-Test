@@ -20,7 +20,6 @@ namespace Phonebook.Application.Validators
                 .WithMessage("Deve conter ao menos um endereço")
                 .Must(addresses => addresses != null && addresses.Any(a => !string.IsNullOrWhiteSpace(a)))
                 .WithMessage("Deve conter ao menos um endereço");
-
         }
     }
 }

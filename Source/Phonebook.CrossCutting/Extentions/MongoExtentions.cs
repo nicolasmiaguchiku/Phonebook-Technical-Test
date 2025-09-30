@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
-using Phonebook.CrossCutting.Dtos;
+using Phonebook.CrossCutting.Models;
 using Phonebook.Infrastructure.Data;
 
 namespace Phonebook.CrossCutting.Extentions
@@ -20,7 +20,7 @@ namespace Phonebook.CrossCutting.Extentions
                 return database;
             });
 
-            
+
             services.AddSingleton<IMongoDbContext, MongoDbContext>();
 
             return services;
