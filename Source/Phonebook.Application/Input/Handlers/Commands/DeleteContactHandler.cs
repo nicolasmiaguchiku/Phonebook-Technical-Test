@@ -8,8 +8,8 @@ namespace Phonebook.Application.Input.Handlers.Commands
     {
         public async Task<ResultData<bool>> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
         {
-           var result = await Repository.DeleteContactAsync(request.Id);
-           return result;
+            var result = await Repository.DeleteContactAsync(request.Id);
+            return result;
         }
     }
 }
