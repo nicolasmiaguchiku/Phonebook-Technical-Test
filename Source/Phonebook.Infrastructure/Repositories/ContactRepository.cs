@@ -1,6 +1,8 @@
 ﻿using Mattioli.Configurations.Stages;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Phonebook.Domain.Dtos.Requests;
+using Phonebook.Domain.Dtos.Response;
 using Phonebook.Domain.Entities;
 using Phonebook.Domain.Filters;
 using Phonebook.Domain.Interfaces;
@@ -16,18 +18,18 @@ namespace Phonebook.Infrastructure.Repositories
     {
 
         private readonly IMongoCollection<ContactEntity> _collection = Context.Contacts;
-        public async Task<ResultData<Contact>> CreateContactAsync(Contact contact)
+        public async Task<ResultData<ContactResponse>> CreateContactAsync(AddContactRequest request)
         {
-            var document = ContactMapper.ToEntity(contact);
+            var contactEntity = request.ToEntity();
 
-            await _collection.InsertOneAsync(document);
+            await _collection.InsertOneAsync(contactEntity);
 
-            var contactDomain = ContactMapper.ToDomain(document);
+            var contactResponse= contactEntity.ToResponse();
 
-            return ResultData<Contact>.Success(contactDomain, "Contato criado com sucesso!");
+            return ResultData<ContactResponse>.Success(contactResponse, "Contato criado com sucesso!");
         }
 
-        public async Task<ResultData<IEnumerable<Contact>>> GetAllContactsAsync(ContactFiltersBuilder queryFilter, CancellationToken cancellationToken)
+        public async Task<ResultData<IEnumerable<ContactResponse>>> GetAllContactsAsync(ContactFiltersBuilder queryFilter, CancellationToken cancellationToken)
         {
             var pipelineDefinition = PipelineDefinitionBuilder
                                .For<ContactEntity>()
@@ -49,35 +51,35 @@ namespace Phonebook.Infrastructure.Repositories
 
             if (contactsEntity == null || contactsEntity.Count == 0)
             {
-                return ResultData<IEnumerable<Contact>>.Failure("Nenhum contato encontrado.");
+                return ResultData<IEnumerable<ContactResponse>>.Failure("Nenhum contato encontrado.");
             }
             else
             {
-                var contacts = contactsEntity.Select(ContactMapper.ToDomain);
+                var contacts = contactsEntity.Select(ContactMapper.ToResponse);
 
-                return ResultData<IEnumerable<Contact>>.Success(contacts, "Contatos encontrados com sucesso.");
+                return ResultData<IEnumerable<ContactResponse>>.Success(contacts, "Contatos encontrados com sucesso.");
             }
         }
 
-        public async Task<ResultData<Contact>> GetContactByIdAsync(ContactFiltersBuilder queryFilters, CancellationToken cancellationToken)
+        public async Task<ResultData<ContactResponse>> GetContactByIdAsync(ContactFiltersBuilder queryFilters, CancellationToken cancellationToken)
         {
 
             if (!ObjectId.TryParse(queryFilters.ContactsId, out var contactId))
             {
-                return ResultData<Contact>.Failure("Id inválido.");
+                return ResultData<ContactResponse>.Failure("Id inválido.");
             }
 
-            var contact = await _collection.Find(c => c.Id == queryFilters.ContactsId).FirstOrDefaultAsync();
+            var contact = await _collection.Find(c => c.Id == queryFilters.ContactsId).FirstOrDefaultAsync(cancellationToken);
 
             if (contact == null)
             {
-                return ResultData<Contact>.Failure("Contato não encontrado.");
+                return ResultData<ContactResponse>.Failure("Contato não encontrado.");
             }
             else
             {
-                var contactDomain = ContactMapper.ToDomain(contact);
+                var contactResponse= contact.ToResponse();
 
-                return ResultData<Contact>.Success(contactDomain, "Contato encontrado com sucesso!");
+                return ResultData<ContactResponse>.Success(contactResponse, "Contato encontrado com sucesso!");
             }
         }
 
@@ -100,17 +102,17 @@ namespace Phonebook.Infrastructure.Repositories
             }
         }
 
-        public async Task<ResultData<Contact>> UpdadeContactAsync(Contact contact)
+        public async Task<ResultData<ContactResponse>> UpdadeContactAsync(UpdadeContactRequest request)
         {
-            var contactentity = ContactMapper.ToEntity(contact);
+            var contactEntity = request.ToEntity();
 
-            var filter = Builders<ContactEntity>.Filter.Eq(c => c.Id, contact.Id);
+            var filter = Builders<ContactEntity>.Filter.Eq(c => c.Id, request.ContactId);
 
-            var result = await _collection.ReplaceOneAsync(filter, contactentity);
+            await _collection.ReplaceOneAsync(filter, contactEntity);
 
-            var updatedContact = ContactMapper.ToDomain(contactentity);
+            var updatedContact = contactEntity.ToResponse();
 
-            return ResultData<Contact>.Success(updatedContact, "Contato atualizado com sucesso");
+            return ResultData<ContactResponse>.Success(updatedContact, "Contato atualizado com sucesso");
         }
     }
 }

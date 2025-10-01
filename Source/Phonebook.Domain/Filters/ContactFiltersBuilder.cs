@@ -1,9 +1,4 @@
-﻿
-using MongoDB.Bson.Serialization.Serializers;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-
-namespace Phonebook.Domain.Filters
+﻿namespace Phonebook.Domain.Filters
 {
     public class ContactFiltersBuilder : PageFilter
     {
@@ -56,6 +51,7 @@ namespace Phonebook.Domain.Filters
 
                 return this;
             }
+
             public Builder WithEmail(string email)
             {
                 if (!string.IsNullOrEmpty(email))

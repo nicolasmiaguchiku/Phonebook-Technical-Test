@@ -1,32 +1,37 @@
-﻿//using MediatR;
-//using Phonebook.Domain.Entities;
-//using Phonebook.Domain.Interfaces;
-//using Phonebook.Domain.Results;
-//using Phonebook.Application.Input.Handlers.Commands;
+﻿using MediatR;
+using Phonebook.Domain.Interfaces;
+using Phonebook.Domain.Results;
+using Phonebook.Application.Input.Handlers.Commands;
+using Phonebook.Domain.Dtos.Response;
+using Phonebook.Domain.Filters;
+using Phonebook.Domain.Dtos.Requests;
 
-//public class UpdateContactCommandHandler(IContactRepository Repository) : IRequestHandler<UpdateContactCommand, ResultData<Contact>>
-//{
-//    public async Task<ResultData<Contact>> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
-//    {
-//        ResultData<Contact> result;
-//        ResultData<Contact> contactEntity = await Repository.GetContactByIdAsync(request.Id, cancellationToken);
+public class UpdateContactCommandHandler(IContactRepository Repository)
+    : IRequestHandler<UpdateContactCommand, ResultData<ContactResponse>>
+{
+    public async Task<ResultData<ContactResponse>> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
+    {
+        var filter = new ContactFiltersBuilder.Builder()
+            .WithFileIds(request.ContactRequest.ContactId)
+            .Build();
 
-//        if (!contactEntity.IsSuccess || contactEntity.Data == null)
-//        {
-//            result = ResultData<Contact>.Failure("Contato não encontrado");
-//            return result;
-//        }
-//        else
-//        {
-//            var contact = contactEntity.Data;
-//            contact.Name = request.Name;
-//            contact.Phone = request.Phone;
-//            contact.Email = request.Email;
-//            contact.DateOfBirth = request.DateOfBirth;
-//            contact.AddAddresses(request.Addresses);
+        var contactEntity = await Repository.GetContactByIdAsync(filter, cancellationToken);
 
-//            result = await Repository.UpdadeContactAsync(contact);
-//            return result;
-//        }
-//    }
-//}
+        if (contactEntity == null)
+        {
+            return ResultData<ContactResponse>.Failure("Contato não encontrado");
+        }
+        else
+        {
+            var contactUpdate = new UpdadeContactRequest.Builder()
+                .SetName(request.ContactRequest.Name)
+                .SetPhone(request.ContactRequest.Phone)
+                .SetDateOfBirth(request.ContactRequest.DateOfBirth)
+                .SetEmail(request.ContactRequest.Email)
+                .SetAddresses(request.ContactRequest.Addresses)
+                .Build();
+
+            return await Repository.UpdadeContactAsync(contactUpdate);
+        }
+    }
+}

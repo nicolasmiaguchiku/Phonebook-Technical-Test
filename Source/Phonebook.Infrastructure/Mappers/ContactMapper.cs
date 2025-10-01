@@ -1,35 +1,50 @@
 ﻿using Phonebook.Domain.Entities;
 using Phonebook.Infrastructure.Persistence;
+using Phonebook.Domain.Dtos.Response;
+using Phonebook.Domain.Dtos.Requests;
 
 namespace Phonebook.Infrastructure.Mappers
 {
     public static class ContactMapper
     {
-        public static ContactEntity ToEntity(Contact contact) => new ContactEntity
+        public static ContactEntity ToEntity(this AddContactRequest contact) => new ()
         {
-            Id = contact.Id,
             Name = contact.Name,
             Phone = contact.Phone,
             Email = contact.Email,
             DateOfBirth = contact.DateOfBirth,
-            Addresses = contact.Addresses.ToList()
+            Addresses = contact.Addresses
         };
 
-        public static Contact ToDomain(ContactEntity entity)
+        public static ContactEntity ToEntity(this UpdadeContactRequest contact) => new()
         {
-            var contact = new Contact
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                Phone = entity.Phone,
-                Email = entity.Email,
-                DateOfBirth = entity.DateOfBirth
-            };
+            Id = contact.ContactId,
+            Name = contact.Name,
+            Phone = contact.Phone,
+            Email = contact.Email,
+            DateOfBirth = contact.DateOfBirth,
+            Addresses = contact.Addresses
+        };
 
-            if (entity.Addresses != null)
-                contact.AddAddresses(entity.Addresses);
+        public static ContactResponse ToResponse(this ContactEntity contact) => new ()
+        {
+            ContactId = contact.Id,
+            Name = contact.Name,
+            Phone = contact.Phone,
+            Email = contact.Email,
+            DateOfBirth = contact.DateOfBirth,
+            Addresses = contact.Addresses!
+        };
 
-            return contact;
-        }
+
+        public static ContactResponse ToResponse(this UpdadeContactRequest contact) => new()
+        {
+            ContactId = contact.ContactId,
+            Name = contact.Name,
+            Phone = contact.Phone,
+            Email = contact.Email,
+            DateOfBirth = contact.DateOfBirth,
+            Addresses = contact.Addresses
+        };
     }
 }

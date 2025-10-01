@@ -2,7 +2,7 @@
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Phonebook.Application.Validators;
-using Phonebook.Application.Input.Handlers.Commands;
+using Phonebook.Domain.Dtos.Requests;
 
 
 namespace Phonebook.CrossCutting.Extentions
@@ -16,9 +16,9 @@ namespace Phonebook.CrossCutting.Extentions
                 options.DisableDataAnnotationsValidation = true;
             });
 
-            services.AddScoped<IValidator<CreateContactCommand>, CreateContactValidation>();
+            services.AddScoped<IValidator<AddContactRequest>, CreateContactValidation>();
 
-            services.AddScoped<IValidator<UpdateContactCommand>, UpdateContactCommandValidator>();
+            services.AddScoped<IValidator<UpdadeContactRequest>, UpdateContactCommandValidator>();
 
         }
     }

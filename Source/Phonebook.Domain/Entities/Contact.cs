@@ -9,7 +9,7 @@ namespace Phonebook.Domain.Entities
         public string Name { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         private List<string> _addresses = new();
 
@@ -17,7 +17,7 @@ namespace Phonebook.Domain.Entities
 
         public Contact() { }
 
-        public Contact(string name, string phone, string email, DateTime? dateOfBirth)
+        public Contact(string name, string phone, string email, DateTime dateOfBirth)
         {
             Name = name;
             Phone = phone;

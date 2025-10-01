@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Phonebook.Domain.Dtos.Requests;
 using Phonebook.Application.Input.Handlers.Queries;
-using Phonebook.Application.Requests;
 
 namespace Phonebook.WebApi.Controllers
 {
@@ -10,14 +10,14 @@ namespace Phonebook.WebApi.Controllers
     public class PhonebookQuerieController(IMediator mediator) : ControllerBase
     {
         [HttpGet("GetAllContact-Phonebook")]
-        public async Task<IActionResult> GetAll([FromQuery] ContactRequest contactRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll([FromQuery] GetContactRequest contactRequest, CancellationToken cancellationToken)
         {
             var result = await mediator.Send(new GetAllContactsQuery(contactRequest), cancellationToken);
             return Ok(result);
         }
 
         [HttpGet("GetContactById")]
-        public async Task<IActionResult> GetById([FromQuery] ContactRequest contactRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([FromQuery] GetContactRequest contactRequest, CancellationToken cancellationToken)
         {
             var result = await mediator.Send(new GetContactByIdQuery(contactRequest), cancellationToken);
 
@@ -26,7 +26,5 @@ namespace Phonebook.WebApi.Controllers
 
             return Ok(result);
         }
-
-        
     }
 }
