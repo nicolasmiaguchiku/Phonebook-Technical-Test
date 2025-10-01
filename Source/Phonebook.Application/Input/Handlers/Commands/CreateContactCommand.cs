@@ -1,14 +1,9 @@
 ﻿using MediatR;
-using Phonebook.Domain.Entities;
+using Phonebook.Domain.Dtos.Requests;
+using Phonebook.Domain.Dtos.Response;
 using Phonebook.Domain.Results;
-
 
 namespace Phonebook.Application.Input.Handlers.Commands
 {
-    public record CreateContactCommand(
-    string Name,
-    string Phone,
-    string Email,
-    DateTime? DateOfBirth,
-    IEnumerable<string> Addresses) : IRequest<ResultData<Contact>>;
+    public record CreateContactCommand(AddContactRequest AddContactRequest) : IRequest<ResultData<ContactResponse>>;
 }

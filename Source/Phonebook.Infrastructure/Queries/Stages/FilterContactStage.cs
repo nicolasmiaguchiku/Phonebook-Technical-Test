@@ -18,7 +18,6 @@ namespace Phonebook.Infrastructure.Queries.Stages
             {
                 pipelineDefinition = pipelineDefinition.Match(matchFilter);
             }
-
             return pipelineDefinition;
         }
 
@@ -69,8 +68,5 @@ namespace Phonebook.Infrastructure.Queries.Stages
 
             return new BsonDocumentFilterDefinition<BsonDocument>(filter);
         }
-
-
-
     }
 }

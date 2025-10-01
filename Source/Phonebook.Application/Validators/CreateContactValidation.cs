@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
 using Phonebook.Application.Input.Handlers.Commands;
+using Phonebook.Domain.Dtos.Requests;
 
 namespace Phonebook.Application.Validators
 {
-    public class CreateContactValidation : AbstractValidator<CreateContactCommand>
+    public class CreateContactValidation : AbstractValidator<AddContactRequest>
     {
         public CreateContactValidation()
         {

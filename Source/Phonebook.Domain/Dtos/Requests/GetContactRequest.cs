@@ -2,9 +2,9 @@
 using Mattioli.Configurations.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Phonebook.Application.Requests
+namespace Phonebook.Domain.Dtos.Requests
 {
-    public class ContactRequest
+    public class GetContactRequest
     {
         [FromQuery]
         public PageFilterRequest PageFilter { get; set; }
@@ -15,7 +15,7 @@ namespace Phonebook.Application.Requests
         [FromQuery]
         public string? ContactId { get; set; }
 
-        public ContactRequest()
+        public GetContactRequest()
         {
             PageFilter = new PageFilterRequest
             {

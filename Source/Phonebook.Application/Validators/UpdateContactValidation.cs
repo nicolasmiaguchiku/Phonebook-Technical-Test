@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
 using Phonebook.Application.Input.Handlers.Commands;
+using Phonebook.Domain.Dtos.Requests;
 
 namespace Phonebook.Application.Validators
 {
-    public class UpdateContactCommandValidator : AbstractValidator<UpdateContactCommand>
+    public class UpdateContactCommandValidator : AbstractValidator<UpdadeContactRequest>
     {
         public UpdateContactCommandValidator()
         {

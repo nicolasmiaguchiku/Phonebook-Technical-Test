@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Phonebook.Application.Input.Handlers.Commands;
-using Phonebook.Domain.Entities;
-using Phonebook.Domain.Results;
 
 namespace Phonebook.WebApi.Controllers
 {
@@ -12,9 +10,9 @@ namespace Phonebook.WebApi.Controllers
     {
 
         [HttpPost("AddContact-Phonebook")]
-        public async Task<IActionResult> Create([FromBody] CreateContactCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([FromBody] CreateContactCommand request, CancellationToken cancellationToken)
         {
-            ResultData<Contact> result = await mediator.Send(command, cancellationToken);
+            var result = await mediator.Send(new CreateContactCommand(request.AddContactRequest), cancellationToken);
 
             if(result.IsSuccess)
             {
