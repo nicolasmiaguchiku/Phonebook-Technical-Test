@@ -19,7 +19,7 @@ public class UpdateContactCommandHandler(IContactRepository Repository, IValidat
         if (!validationResult.IsValid)
         {
             var errors = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
-            return Result<ContactResponse>.Failure(new Error("",errors));
+            return Result<ContactResponse>.Failure(new Error("", errors));
         }
 
         var filter = new ContactFiltersBuilder.Builder()

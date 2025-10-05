@@ -24,7 +24,7 @@ namespace Phonebook.Infrastructure.Repositories
 
             await _collection.InsertOneAsync(contactEntity);
 
-            var contactResponse= contactEntity.ToResponse();
+            var contactResponse = contactEntity.ToResponse();
 
             return Result<ContactResponse>.Success(contactResponse);
         }

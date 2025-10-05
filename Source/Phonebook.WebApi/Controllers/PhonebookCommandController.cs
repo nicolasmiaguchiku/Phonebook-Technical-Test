@@ -16,7 +16,7 @@ namespace Phonebook.WebApi.Controllers
         {
             var result = await mediator.Send(new CreateContactCommand(request.AddContactRequest), cancellationToken);
 
-            if(result.IsFailure)
+            if (result.IsFailure)
             {
                 return BadRequest(result.Error);
             }

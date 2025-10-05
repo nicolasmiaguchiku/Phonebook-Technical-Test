@@ -6,7 +6,7 @@ using FluentValidation;
 
 namespace Phonebook.Application.Input.Handlers.Commands
 {
-    public sealed class CreateContactHandler(IContactRepository Repository, IValidator<CreateContactCommand> Validator) 
+    public sealed class CreateContactHandler(IContactRepository Repository, IValidator<CreateContactCommand> Validator)
         : IRequestHandler<CreateContactCommand, Result<ContactResponse>>
     {
         public async Task<Result<ContactResponse>> Handle(CreateContactCommand request, CancellationToken cancellationToken)

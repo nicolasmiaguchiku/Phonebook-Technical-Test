@@ -7,7 +7,7 @@ namespace Phonebook.Infrastructure.Mappers
 {
     public static class ContactMapper
     {
-        public static ContactEntity ToEntity(this CreateContactRequest contact) => new ()
+        public static ContactEntity ToEntity(this CreateContactRequest contact) => new()
         {
             Name = contact.Name,
             Phone = contact.Phone,
@@ -26,7 +26,7 @@ namespace Phonebook.Infrastructure.Mappers
             Addresses = contact.Addresses
         };
 
-        public static ContactResponse ToResponse(this ContactEntity contact) => new ()
+        public static ContactResponse ToResponse(this ContactEntity contact) => new()
         {
             ContactId = contact.Id,
             Name = contact.Name,

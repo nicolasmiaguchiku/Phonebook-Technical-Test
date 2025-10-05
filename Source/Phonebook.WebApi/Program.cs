@@ -9,7 +9,7 @@ builder.Services.ConfigureMediatr()
                 .AddDataMongo(builder.Configuration)
                 .AddRepositories()
                 .AddValidators();
-                
+
 builder.Services.AddOpenApi("v1");
 
 builder.Services.AddControllers();
