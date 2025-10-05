@@ -1,6 +1,6 @@
 ﻿namespace Phonebook.Domain.Dtos.Requests
 {
-    public record AddContactRequest
+    public record CreateContactRequest
     {
         public required string Name { get; set; }
         public required string Phone { get; set; }
@@ -38,9 +38,9 @@
                 return this;
             }
 
-            public AddContactRequest Build()
+            public CreateContactRequest Build()
             {
-                return new AddContactRequest
+                return new CreateContactRequest
                 {
                     Name = Name!,
                     Phone = Phone!,

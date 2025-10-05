@@ -13,6 +13,12 @@ namespace Phonebook.WebApi.Controllers
         public async Task<IActionResult> GetAll([FromQuery] GetContactRequest contactRequest, CancellationToken cancellationToken)
         {
             var result = await mediator.Send(new GetAllContactsQuery(contactRequest), cancellationToken);
+
+            if (result.IsFailure)
+            {
+                return NotFound(result.Error);
+            }
+
             return Ok(result);
         }
 
@@ -21,8 +27,10 @@ namespace Phonebook.WebApi.Controllers
         {
             var result = await mediator.Send(new GetContactByIdQuery(contactRequest), cancellationToken);
 
-            if (!result.IsSuccess)
-                return NotFound(result);
+            if (result.IsFailure)
+            {
+                return NotFound(result.Error);
+            }
 
             return Ok(result);
         }

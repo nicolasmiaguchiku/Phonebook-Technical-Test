@@ -4,19 +4,19 @@ using Phonebook.Domain.Dtos.Requests;
 
 namespace Phonebook.Application.Validators
 {
-    public class CreateContactValidation : AbstractValidator<AddContactRequest>
+    public class CreateContactValidation : AbstractValidator<CreateContactCommand>
     {
         public CreateContactValidation()
         {
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Nome é obrigatório");
+            RuleFor(x => x.AddContactRequest.Name).NotEmpty().WithMessage("Nome é obrigatório");
 
-            RuleFor(x => x.Phone).NotEmpty().WithMessage("Telefone é obrigatório");
+            RuleFor(x => x.AddContactRequest.Phone).NotEmpty().WithMessage("Telefone é obrigatório");
 
-            RuleFor(x => x.Email)
+            RuleFor(x => x.AddContactRequest.Email)
                 .NotEmpty().WithMessage("Email é obrigatório")
                 .EmailAddress().WithMessage("Email inválido");
 
-            RuleFor(x => x.Addresses)
+            RuleFor(x => x.AddContactRequest.Addresses)
                 .NotNull()
                 .WithMessage("Deve conter ao menos um endereço")
                 .Must(addresses => addresses != null && addresses.Any(a => !string.IsNullOrWhiteSpace(a)))

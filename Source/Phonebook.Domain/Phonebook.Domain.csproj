@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mattioli.Configurations" Version="1.53.1" />
+    <PackageReference Include="Mattioli.Configurations" Version="1.56.0" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Phonebook.Application.Input.Handlers.Commands;
+using Phonebook.Domain.Dtos.Requests;
+using Phonebook.Domain.Filters;
 
 namespace Phonebook.WebApi.Controllers
 {
@@ -14,14 +16,11 @@ namespace Phonebook.WebApi.Controllers
         {
             var result = await mediator.Send(new CreateContactCommand(request.AddContactRequest), cancellationToken);
 
-            if(result.IsSuccess)
+            if(result.IsFailure)
             {
-                return Ok(result);
+                return BadRequest(result.Error);
             }
-            else
-            {
-                return BadRequest(result);
-            }
+            return Ok(result);
         }
 
         [HttpPut("UpdateContactbyId")]
@@ -29,21 +28,23 @@ namespace Phonebook.WebApi.Controllers
         {
             var result = await mediator.Send(command, cancellationToken);
 
-            if (result.IsSuccess)
+            if (result.IsFailure)
             {
-                return Ok(result);
+                return BadRequest(result.Error);
             }
-            else
-            {
-                return BadRequest(result);
-            }
-        }
-
-        [HttpDelete("DeleteContactById")]
-        public async Task<IActionResult> DeleteContactById([FromQuery] string id)
-        {
-            var result = await mediator.Send(new DeleteContactCommand(id));
             return Ok(result);
         }
+
+        //[HttpDelete("DeleteContactById")]
+        //public async Task<IActionResult> DeleteContactById([FromQuery] GetContactRequest queryFilter)
+        //{
+        //    var result = await mediator.Send(new DeleteContactCommand(queryFilter));
+
+        //    if (result.IsFailure)
+        //    {
+        //        return BadRequest(result.Error);
+        //    }
+        //    return Ok(result);
+        //}
     }
 }

@@ -1,7 +1,6 @@
-﻿using MediatR;
-using Phonebook.Domain.Results;
+﻿using Mattioli.Configurations.Models;
+using MediatR;
+using Phonebook.Domain.Filters;
 
-namespace Phonebook.Application.Input.Handlers.Commands
-{
-    public record DeleteContactCommand(string Id) : IRequest<ResultData<bool>>;
-}
+namespace Phonebook.Application.Input.Handlers.Commands;
+public record DeleteContactCommand(ContactFiltersBuilder queryFilter) : IRequest<Result<bool>>;

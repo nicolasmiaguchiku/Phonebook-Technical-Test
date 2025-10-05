@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Phonebook.Domain.Dtos.Requests;
 using Phonebook.Domain.Dtos.Response;
-using Phonebook.Domain.Results;
+using Mattioli.Configurations.Models;
 
-namespace Phonebook.Application.Input.Handlers.Queries
-{
-    public record GetContactByIdQuery(GetContactRequest ContactRequest) : IRequest<ResultData<ContactResponse>>;
-}
+namespace Phonebook.Application.Input.Handlers.Queries;
+public record GetContactByIdQuery(GetContactRequest ContactRequest) : IRequest<Result<ContactResponse>>;

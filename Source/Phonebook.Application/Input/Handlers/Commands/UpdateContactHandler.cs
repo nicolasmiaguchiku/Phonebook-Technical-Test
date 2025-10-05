@@ -1,25 +1,36 @@
-﻿using MediatR;
-using Phonebook.Domain.Interfaces;
-using Phonebook.Domain.Results;
+﻿using FluentValidation;
+using Mattioli.Configurations.Models;
+using MediatR;
 using Phonebook.Application.Input.Handlers.Commands;
-using Phonebook.Domain.Dtos.Response;
-using Phonebook.Domain.Filters;
 using Phonebook.Domain.Dtos.Requests;
+using Phonebook.Domain.Dtos.Response;
+using Phonebook.Domain.Entities;
+using Phonebook.Domain.Filters;
+using Phonebook.Domain.Interfaces;
 
-public class UpdateContactCommandHandler(IContactRepository Repository)
-    : IRequestHandler<UpdateContactCommand, ResultData<ContactResponse>>
+public class UpdateContactCommandHandler(IContactRepository Repository, IValidator<UpdateContactCommand> Validator)
+    : IRequestHandler<UpdateContactCommand, Result<ContactResponse>>
 {
-    public async Task<ResultData<ContactResponse>> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ContactResponse>> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
     {
+        var validateContext = new ValidationContext<UpdateContactCommand>(request);
+        var validationResult = await Validator.ValidateAsync(validateContext, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            var errors = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
+            return Result<ContactResponse>.Failure(new Error("",errors));
+        }
+
         var filter = new ContactFiltersBuilder.Builder()
             .WithFileIds(request.ContactRequest.ContactId)
             .Build();
 
         var contactEntity = await Repository.GetContactByIdAsync(filter, cancellationToken);
 
-        if (contactEntity == null)
+        if (contactEntity.IsFailure)
         {
-            return ResultData<ContactResponse>.Failure("Contato não encontrado");
+            return Result<ContactResponse>.Failure(contactEntity.Error);
         }
         else
         {
