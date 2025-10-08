@@ -7,7 +7,6 @@ using Phonebook.Domain.Dtos.Response;
 using Phonebook.Domain.Errors;
 using Phonebook.Domain.Filters;
 using Phonebook.Domain.Interfaces;
-using Phonebook.Infrastructure.Data;
 using Phonebook.Infrastructure.Mappers;
 using Phonebook.Infrastructure.Persistence;
 using Phonebook.Infrastructure.Queries.Stages;
