@@ -1,27 +1,24 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using Phonebook.CrossCutting.Models;
-using Phonebook.Infrastructure.Data;
 
 namespace Phonebook.CrossCutting.Extentions
 {
     public static class MongoExtentions
     {
-        public static IServiceCollection AddDataMongo(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDataMongo(this IServiceCollection services, MongoDbSettings mongoSettings)
         {
-            var settings = configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
+            var clientSettings = MongoClientSettings.FromConnectionString(mongoSettings.ConnectionString);
+            var mongoClient = new MongoClient(clientSettings);
 
-            services.AddSingleton<IMongoDatabase>(provider =>
+            services.AddSingleton<IMongoClient>(_ => mongoClient);
+
+            services.AddSingleton(sp =>
             {
-                var mongoClient = new MongoClient(settings!.ConnectionString);
-                var database = mongoClient.GetDatabase(settings.DatabaseName);
-
-                return database;
+                var mongoClient = sp.GetService<IMongoClient>()!;
+                var db = mongoClient.GetDatabase(mongoSettings.DatabaseName);
+                return db;
             });
-
-
-            services.AddSingleton<IMongoDbContext, MongoDbContext>();
 
             return services;
         }

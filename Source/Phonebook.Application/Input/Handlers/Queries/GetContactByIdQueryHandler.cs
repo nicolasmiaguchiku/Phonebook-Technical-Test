@@ -4,7 +4,6 @@ using Phonebook.Domain.Filters;
 using Phonebook.Domain.Interfaces;
 using Mattioli.Configurations.Models;
 
-
 namespace Phonebook.Application.Input.Handlers.Queries
 {
     internal class GetContactByIdQueryHandler(IContactRepository Repository)

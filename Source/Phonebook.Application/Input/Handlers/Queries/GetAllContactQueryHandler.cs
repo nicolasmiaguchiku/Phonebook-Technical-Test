@@ -4,10 +4,10 @@ using Phonebook.Domain.Filters;
 using Phonebook.Domain.Interfaces;
 using Mattioli.Configurations.Models;
 
-
 namespace Phonebook.Application.Input.Handlers.Queries
 {
-    internal class GetAllContactQueryHandler(IContactRepository Repository) : IRequestHandler<GetAllContactsQuery, Result<IEnumerable<ContactResponse>>>
+    internal class GetAllContactQueryHandler(IContactRepository Repository) 
+        : IRequestHandler<GetAllContactsQuery, Result<IEnumerable<ContactResponse>>>
     {
         public async Task<Result<IEnumerable<ContactResponse>>> Handle(GetAllContactsQuery query, CancellationToken cancellationToken = default)
         {

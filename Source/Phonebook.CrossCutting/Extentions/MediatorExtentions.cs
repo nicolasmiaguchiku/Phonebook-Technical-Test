@@ -15,13 +15,8 @@ namespace Phonebook.CrossCutting.Extentions
             services.AddMediatR(mediatir =>
             {
                 mediatir.RegisterServicesFromAssembly(applicationAssemblyQuery);
-            });
-
-            services.AddMediatR(mediatir =>
-            {
                 mediatir.RegisterServicesFromAssembly(applicationAssemblyCommand);
             });
-
 
             return services;
         }

@@ -14,10 +14,10 @@ using Phonebook.Infrastructure.Queries.Stages;
 
 namespace Phonebook.Infrastructure.Repositories
 {
-    public class ContactRepository(IMongoDbContext Context) : IContactRepository
+    public class ContactRepository(IMongoDatabase mongoDb) : IContactRepository
     {
+        private readonly IMongoCollection<ContactEntity> _collection = mongoDb.GetCollection<ContactEntity>("Contacts");
 
-        private readonly IMongoCollection<ContactEntity> _collection = Context.Contacts;
         public async Task<Result<ContactResponse>> CreateContactAsync(CreateContactRequest request)
         {
             var contactEntity = request.ToEntity();

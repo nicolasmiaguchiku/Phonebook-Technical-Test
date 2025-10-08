@@ -1,12 +1,21 @@
 using Phonebook.CrossCutting.Extentions;
+using Phonebook.CrossCutting.Models;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var enviroment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{enviroment}.json", true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+var applicationSettings = builder.Configuration.GetApplicationSettings(builder.Environment);
 
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.ConfigureMediatr()
-                .AddDataMongo(builder.Configuration)
+                .AddDataMongo(applicationSettings.MongoDbSettings)
                 .AddRepositories()
                 .AddValidators();
 
