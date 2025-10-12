@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 using Phonebook.Application.Input.Handlers.Commands;
-using Phonebook.Domain.Dtos.Requests;
 
 namespace Phonebook.Application.Validators
 {
-    public class CreateContactValidation : AbstractValidator<CreateContactCommand>
+    public class AddContactValidation : AbstractValidator<AddContactCommand>
     {
-        public CreateContactValidation()
+        public AddContactValidation()
         {
             RuleFor(x => x.AddContactRequest.Name).NotEmpty().WithMessage("Nome é obrigatório");
 

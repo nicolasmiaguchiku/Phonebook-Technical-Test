@@ -1,5 +1,4 @@
 using Phonebook.CrossCutting.Extentions;
-using Phonebook.CrossCutting.Models;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

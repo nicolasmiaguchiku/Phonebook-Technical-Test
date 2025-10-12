@@ -1,5 +1,4 @@
-﻿using Phonebook.Domain.Entities;
-using Phonebook.Infrastructure.Persistence;
+﻿using Phonebook.Infrastructure.Persistence;
 using Phonebook.Domain.Dtos.Response;
 using Phonebook.Domain.Dtos.Requests;
 
@@ -7,8 +6,9 @@ namespace Phonebook.Infrastructure.Mappers
 {
     public static class ContactMapper
     {
-        public static ContactEntity ToEntity(this CreateContactRequest contact) => new()
+        public static ContactEntity ToEntity(this AddContactRequest contact) => new()
         {
+            Id = contact.ContactId,
             Name = contact.Name,
             Phone = contact.Phone,
             Email = contact.Email,

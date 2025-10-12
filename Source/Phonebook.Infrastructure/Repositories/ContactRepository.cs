@@ -17,11 +17,11 @@ namespace Phonebook.Infrastructure.Repositories
     {
         private readonly IMongoCollection<ContactEntity> _collection = mongoDb.GetCollection<ContactEntity>("Contacts");
 
-        public async Task<Result<ContactResponse>> CreateContactAsync(CreateContactRequest request)
+        public async Task<Result<ContactResponse>> AddContactAsync(AddContactRequest request, CancellationToken cancellationToken )
         {
             var contactEntity = request.ToEntity();
 
-            await _collection.InsertOneAsync(contactEntity);
+            await _collection.InsertOneAsync(contactEntity, cancellationToken: cancellationToken);
 
             var contactResponse = contactEntity.ToResponse();
 

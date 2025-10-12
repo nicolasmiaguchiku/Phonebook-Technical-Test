@@ -17,7 +17,7 @@ namespace Phonebook.CrossCutting.Extentions
                 options.DisableDataAnnotationsValidation = true;
             });
 
-            services.AddScoped<IValidator<CreateContactCommand>, CreateContactValidation>();
+            services.AddScoped<IValidator<AddContactCommand>, AddContactValidation>();
 
             services.AddScoped<IValidator<UpdateContactCommand>, UpdateContactCommandValidator>();
 

@@ -6,12 +6,12 @@ using FluentValidation;
 
 namespace Phonebook.Application.Input.Handlers.Commands
 {
-    public sealed class CreateContactHandler(IContactRepository Repository, IValidator<CreateContactCommand> Validator)
-        : IRequestHandler<CreateContactCommand, Result<ContactResponse>>
+    public sealed class AddContactCommandHandler(IContactRepository Repository, IValidator<AddContactCommand> Validator)
+        : IRequestHandler<AddContactCommand, Result<ContactResponse>>
     {
-        public async Task<Result<ContactResponse>> Handle(CreateContactCommand request, CancellationToken cancellationToken)
+        public async Task<Result<ContactResponse>> Handle(AddContactCommand request, CancellationToken cancellationToken)
         {
-            var validationContext = new ValidationContext<CreateContactCommand>(request);
+            var validationContext = new ValidationContext<AddContactCommand>(request);
             var validationResult = await Validator.ValidateAsync(validationContext, cancellationToken);
 
             if (!validationResult.IsValid)
@@ -29,7 +29,7 @@ namespace Phonebook.Application.Input.Handlers.Commands
                 .SetAddresses(request.AddContactRequest.Addresses)
                 .Build();
 
-            return await Repository.CreateContactAsync(contact);
+            return await Repository.AddContactAsync(contact, cancellationToken);
         }
     }
 }

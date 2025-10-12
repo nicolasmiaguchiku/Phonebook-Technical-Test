@@ -4,7 +4,7 @@ using Mattioli.Configurations.Models;
 
 namespace Phonebook.Application.Input.Handlers.Commands
 {
-    public class DeleteContactHandler(IContactRepository Repository) : IRequestHandler<DeleteContactCommand, Result<bool>>
+    public class DeleteContactCommandHandler(IContactRepository Repository) : IRequestHandler<DeleteContactCommand, Result<bool>>
     {
         public async Task<Result<bool>> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
         {

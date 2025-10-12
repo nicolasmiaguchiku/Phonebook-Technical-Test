@@ -10,7 +10,7 @@ namespace Phonebook.CrossCutting.Extentions
         {
             var applicationAssemblyQuery = typeof(GetAllContactsQuery).Assembly;
 
-            var applicationAssemblyCommand = typeof(CreateContactCommand).Assembly;
+            var applicationAssemblyCommand = typeof(AddContactCommand).Assembly;
 
             services.AddMediatR(mediatir =>
             {

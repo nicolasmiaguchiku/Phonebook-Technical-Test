@@ -1,7 +1,10 @@
-﻿namespace Phonebook.Domain.Dtos.Requests
+﻿using Microsoft.AspNetCore.Mvc.Formatters;
+
+namespace Phonebook.Domain.Dtos.Requests
 {
-    public record CreateContactRequest
+    public record AddContactRequest
     {
+        public required string ContactId { get; set; }
         public required string Name { get; set; }
         public required string Phone { get; set; }
         public required string Email { get; set; }
@@ -10,6 +13,7 @@
 
         public Builder ToBuilder() => new()
         {
+            ContactId = ContactId,
             Name = Name,
             Phone = Phone,
             Email = Email,
@@ -19,6 +23,7 @@
 
         public sealed class Builder()
         {
+            public string ContactId = new Guid().ToString();
             internal string? Name { get; set; }
             internal string? Phone { get; set; }
             internal string? Email { get; set; }
@@ -38,10 +43,11 @@
                 return this;
             }
 
-            public CreateContactRequest Build()
+            public AddContactRequest Build()
             {
-                return new CreateContactRequest
+                return new AddContactRequest
                 {
+                    ContactId = ContactId,
                     Name = Name!,
                     Phone = Phone!,
                     Email = Email!,

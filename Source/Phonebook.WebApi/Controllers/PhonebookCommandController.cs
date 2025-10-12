@@ -12,9 +12,9 @@ namespace Phonebook.WebApi.Controllers
     {
 
         [HttpPost("AddContact-Phonebook")]
-        public async Task<IActionResult> Create([FromBody] CreateContactCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([FromBody] AddContactCommand request, CancellationToken cancellationToken)
         {
-            var result = await mediator.Send(new CreateContactCommand(request.AddContactRequest), cancellationToken);
+            var result = await mediator.Send(new AddContactCommand(request.AddContactRequest), cancellationToken);
 
             if (result.IsFailure)
             {
