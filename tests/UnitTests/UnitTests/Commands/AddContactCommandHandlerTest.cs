@@ -9,7 +9,7 @@ using Phonebook.Domain.Dtos.Response;
 using Phonebook.Domain.Interfaces;
 using Xunit.Abstractions;
 
-namespace Phonebook.Tests.Commands
+namespace Phonebook.Tests.UnitTests.Commands
 {
     public class AddContactCommandHandlerTest
     {
